@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Lang;
+
 
 class AuthController extends Controller
 {
@@ -20,7 +22,8 @@ class AuthController extends Controller
             return response()->json(['user' => Auth::user()]);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+
+        return response()->json(['message' => __('messages.error')], 401);
     }
 
     public function register(Request $request)
@@ -50,7 +53,7 @@ class AuthController extends Controller
 
 
         Mail::to($payload['email'])->send(new VerificationEmail($payload));
-        return response()->json(['message' => 'Registration successful']);
+        return response()->json(['message' => 'შეამოწმეთ ელ.ფოსტა რეგისტრაციის დასასრულებლად!']);
     }
 
     public function logout()

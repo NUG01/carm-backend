@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\LocalizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    // Your authenticated routes go here
+    //
 });
+
+
+
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/email-verify', [AuthController::class, 'verifyEmail']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::get('lang/{lang}', [LocalizationController::class, 'setLocale'])->name('setLocale');
