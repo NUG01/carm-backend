@@ -16,12 +16,13 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $email_is_verified = User::where('email', $request->email)->first()->hasVerifiedEmail();
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password]) && $email_is_verified) {
+        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && $user->hasVerifiedEmail() && Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return response()->json(['user' => Auth::user()]);
         }
-
 
         return response()->json(['message' => __('messages.error')], 401);
     }
